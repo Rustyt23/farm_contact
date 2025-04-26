@@ -1,0 +1,5 @@
+farm.contacts:
+  title: Contacts
+  parent: farm.base
+  route_name: 'farm_contact.add_contact'
+  weight: 0
