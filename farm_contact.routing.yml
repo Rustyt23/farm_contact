@@ -1,0 +1,14 @@
+farm_contact.add_contact:
+  path: /farm-contact/test
+  defaults:
+    _title_callback: '\Drupal\farm_contact\Controller\FarmContactController::title'
+    _controller: '\Drupal\farm_contact\Controller\FarmContactController::testPage'
+  requirements:
+    _permission: 'access content'
+entity.contact.add_form:
+  path: '/farm-contact/contact/add'
+  defaults:
+    _entity_form: 'contact.add'
+    _title: 'Add Contact'
+  requirements:
+    _permission: 'administer contact entities'

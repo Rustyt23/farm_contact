@@ -1,0 +1,9 @@
+name: Contact
+description: Manage Contacts for farmOS.
+type: module
+package: farmOS Contrib
+core_version_requirement: ^10
+dependencies:
+  - farm_entity
+  - user
+  - farm_ui_views

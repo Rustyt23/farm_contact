@@ -1,0 +1,67 @@
+contact:
+  type: entity
+  label: 'Contact'
+  mapping:
+    id:
+      type: integer
+      label: 'ID'
+    uuid:
+      type: uuid
+      label: 'UUID'
+    display_as:
+      type: string
+      label: 'Display As'
+    ranch_name:
+      type: string
+      label: 'Ranch Name'
+    first_name:
+      type: string
+      label: 'First Name'
+    last_name:
+      type: string
+      label: 'Last Name'
+    title:
+      type: string
+      label: 'Title'
+    website:
+      type: uri
+      label: 'Website'
+    status:
+      type: boolean
+      label: 'Status'
+    tags:
+      type: entity_reference
+      label: 'Tags'
+    comments:
+      type: text_long
+      label: 'Comments'
+    photo:
+      type: image
+      label: 'Photo'
+    address:
+      type: string
+      label: 'Address'
+    city:
+      type: string
+      label: 'City'
+    state:
+      type: string
+      label: 'State'
+    zip:
+      type: string
+      label: 'Zip'
+    country:
+      type: string
+      label: 'Country'
+    phone_number:
+      type: string
+      label: 'Phone Number'
+    phone_location:
+      type: string
+      label: 'Phone Location'
+    email:
+      type: email
+      label: 'Email'
+    email_location:
+      type: string
+      label: 'Email Location'
