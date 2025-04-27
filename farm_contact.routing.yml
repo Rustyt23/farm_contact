@@ -8,7 +8,7 @@ farm_contact.add_contact:
 entity.contact.add_form:
   path: '/farm-contact/contact/add'
   defaults:
-    _entity_form: 'contact.add'
+    _form: '\Drupal\farm_contact\Form\AddContactForm' # Use the custom form class.
     _title: 'Add Contact'
   requirements:
     _permission: 'administer contact entities'
