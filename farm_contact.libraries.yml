@@ -1,0 +1,10 @@
+contact_modal:
+  version: 1.x
+  js:
+    js/contact_modal.js: {}
+  css:
+    theme:
+      css/contact_modal.css: {}
+  dependencies:
+    - core/drupal
+    - core/jquery

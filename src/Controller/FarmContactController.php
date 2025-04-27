@@ -15,16 +15,17 @@ public function testPage() {
   $connection = Database::getConnection();
   $query = $connection->select('contact', 'c')
     ->fields('c', ['id', 'display_as', 'email', 'phone_number'])
+    ->condition('c.bundle', 'default') // Specify the bundle
     ->range(0, 50); // Increase limit if you want
   $results = $query->execute()->fetchAll();
+  $output = '';
 
   if (!empty($results)) {
     $output .= '<table style="width:100%; border-collapse: collapse;" border="1">';
-    $output .= '<thead><tr><th>ID</th><th>Display Name</th><th>Email</th><th>Phone</th></tr></thead>';
+    $output .= '<thead><tr><th>Display Name</th><th>Email</th><th>Phone</th></tr></thead>';
     $output .= '<tbody>';
     foreach ($results as $record) {
       $output .= '<tr>';
-      $output .= '<td>' . $record->id . '</td>';
       $output .= '<td>' . $record->display_as . '</td>';
       $output .= '<td>' . $record->email . '</td>';
       $output .= '<td>' . $record->phone_number . '</td>';
