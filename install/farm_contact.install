@@ -1,0 +1,113 @@
+<?php
+
+/**
+ * @file
+ * Install file for the farm_contact module.
+ */
+
+use Drupal\Core\Database\Schema;
+
+/**
+ * Implements hook_schema().
+ */
+function farm_contact_schema() {
+  $schema['contact'] = array(
+    'description' => 'Stores contact information for farm-related entities.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'serial',
+        'not null' => TRUE,
+      ),
+      'display_as' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+      ),
+      'first_name' => array(
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => FALSE,
+      ),
+      'revision_id' => array(
+        'type' => 'serial',
+        'not null' => FALSE,
+      ),
+      'revision_uid' => array(
+        'type' => 'int',
+        'not null' => FALSE,
+      ),
+      'created' => array(
+        'type' => 'int',
+        'not null' => FALSE,
+      ),
+      // Add other fields as needed
+    ),
+    'primary key' => array('id'),
+    'indexes' => array(
+      'revision_id' => array('revision_id'),
+      'revision_uid' => array('revision_uid'),
+    ),
+  );
+
+  return $schema;
+}
+/**
+ * Implements hook_entity_type_build().
+ */
+function farm_contact_entity_type_build(array &$entity_types) {
+  // Add revision support to the contact entity.
+  $entity_types['contact']->setRevisionable(TRUE);
+}
+
+/**
+ * Implements hook_install().
+ */
+function farm_contact_install() {
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function farm_contact_uninstall() {
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function farm_contact_update_8000() {
+  // Create the table if it does not exist
+  $schema = \Drupal::database()->schema();
+  
+  // Check if the 'contact' table exists, and create it if not
+  if (!$schema->tableExists('contact')) {
+    $schema->createTable('contact', farm_contact_schema()['contact']);
+  }
+
+  // You can also check if the revisions fields are present, and alter the table if necessary
+  $fields = $schema->fieldExists('contact', 'revision_id');
+  if (!$fields) {
+    $schema->addField('contact', 'revision_id', array(
+      'type' => 'serial',
+      'not null' => TRUE,
+    ));
+  }
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function farm_contact_update_8001() {
+  // Add the 'display_as' column to the contact table if it doesn't exist.
+  $connection = \Drupal::database();
+  $schema = $connection->schema();
+  
+  // Check if the column exists before adding it.
+  if (!$schema->fieldExists('contact', 'display_as')) {
+    $schema->addField('contact', 'display_as', [
+      'type' => 'varchar',
+      'length' => 255,
+      'not null' => FALSE,
+      'default' => '',
+    ]);
+  }
+}

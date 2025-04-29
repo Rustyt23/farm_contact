@@ -1,10 +1,11 @@
-contact_modal:
+contact_profile:
   version: 1.x
-  js:
-    js/contact_modal.js: {}
   css:
     theme:
-      css/contact_modal.css: {}
+      css/farm_contact_profile.css: {}
+  js:
+    js/farm_contact_profile.js: {}
   dependencies:
     - core/drupal
     - core/jquery
+    - core/drupalSettings

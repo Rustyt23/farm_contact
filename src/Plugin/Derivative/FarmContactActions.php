@@ -20,7 +20,7 @@ class FarmContactActions extends DeriverBase implements ContainerDeriverInterfac
       'route_name' => 'farm_contact.add_contact',
       'title' => t('Add Contact'),
       'appears_on' => ['farm_contact.add_contact'],
-      'entity_type' => 'contact', // 👈 THIS IS REQUIRED
+      'entity_type' => 'contacts', // 👈 THIS IS REQUIRED
     ];
     return $this->derivatives;
   }

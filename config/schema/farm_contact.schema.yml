@@ -1,6 +1,6 @@
-contact:
+contacts:
   type: entity
-  label: 'Contact'
+  label: 'Contacts'
   mapping:
     id:
       type: integer

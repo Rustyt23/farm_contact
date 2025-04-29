@@ -4,7 +4,7 @@ namespace Drupal\farm_contact\Form;
 
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\farm_contact\Entity\Contact;
+use Drupal\farm_contact\Entity\Contacts;
 
 /**
  * Form for adding a new Contact.
@@ -67,6 +67,15 @@ class AddContactForm extends FormBase {
       '#title' => $this->t('Active'),
       '#default_value' => 1,
     ];
+    $form['contact_details']['photo'] = [
+      '#type' => 'managed_file',
+      '#title' => $this->t('Photo'),
+      '#upload_location' => 'public://contact_photos/',
+      '#upload_validators' => [
+        'file_validate_extensions' => ['png jpg jpeg'],
+      ],
+      '#description' => $this->t('Upload a photo (JPG, JPEG, PNG only).'),
+    ];
     $form['contact_details']['tags'] = [
       '#type' => 'entity_autocomplete',
       '#title' => $this->t('Tags'),
@@ -121,8 +130,18 @@ class AddContactForm extends FormBase {
       '#title' => $this->t('Phone Number'),
     ];
     $form['phone_numbers']['phone_location'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Phone Location'),
+      '#options' => [
+        'Ranch' => $this->t('Ranch'),
+        'Work' => $this->t('Work'),
+        'Home' => $this->t('Home'),
+        'Mobile' => $this->t('Mobile'),
+        'Fax' => $this->t('Fax'),
+        'Pager' => $this->t('Pager'),
+        'Other' => $this->t('Other'),
+      ],
+      '#default_value' => 'Work',
     ];
   
     // Email Addresses Tab
@@ -136,8 +155,18 @@ class AddContactForm extends FormBase {
       '#title' => $this->t('Email'),
     ];
     $form['email_addresses']['email_location'] = [
-      '#type' => 'textfield',
+      '#type' => 'select',
       '#title' => $this->t('Email Location'),
+      '#options' => [
+        'Ranch' => $this->t('Ranch'),
+        'Work' => $this->t('Work'),
+        'Home' => $this->t('Home'),
+        'Mobile' => $this->t('Mobile'),
+        'Fax' => $this->t('Fax'),
+        'Pager' => $this->t('Pager'),
+        'Other' => $this->t('Other'),
+      ],
+      '#default_value' => 'Work',
     ];
   
   
@@ -151,9 +180,16 @@ class AddContactForm extends FormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
 
     $values = $form_state->getValues();
-
+    $photo_fid = !empty($values['photo']) ? reset($values['photo']) : NULL;
+    if ($photo_fid) {
+      \Drupal::entityTypeManager()
+        ->getStorage('file')
+        ->load($photo_fid)
+        ->setPermanent()
+        ->save();
+    }
     // Create and save a new Contact entity.
-    $contact = Contact::create([
+    $contacts = Contacts::create([
       'display_as' => $values['display_as'],
       'ranch_name' => $values['ranch_name'],
       'first_name' => $values['first_name'],
@@ -162,10 +198,11 @@ class AddContactForm extends FormBase {
       'status' => !empty($values['status']),
       'tags' => $values['tags'],
       'comments' => $values['comments'],
+      'photo' => $photo_fid,
       'address' => $values['address'],
       'city' => $values['city'],
       'state' => $values['state'],
-      'zip' => $values['zip'],
+      'zip_code' => $values['zip'],
       'country' => $values['country'],
       'phone_number' => $values['phone_number'],
       'phone_location' => $values['phone_location'],
@@ -173,11 +210,12 @@ class AddContactForm extends FormBase {
       'email_location' => $values['email_location'],
     ]);
 
-    $contact->save();
+
+    $contacts->save();
 
     $this->messenger()->addStatus($this->t('Contact @name has been saved.', ['@name' => $values['display_as']]));
 
-    $form_state->setRedirect('<front>');
+    $form_state->setRedirect('farm_contact.contact_profile', ['contacts' => $contacts->id()]);
   }
 
 }

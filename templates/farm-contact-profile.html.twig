@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Contact Tabs - CattleMax Style</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f1ea;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      background: white;
+      border-radius: 5px;
+      max-width: 1200px;
+      margin: auto;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .header {
+      background: #e8d9c3;
+      padding: 15px 20px;
+      display: flex;
+      align-items: center;
+    }
+    .header img {
+      width: 50px;
+      height: 50px;
+      background: #ccc;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+    .header h2 {
+      margin: 0;
+      font-size: 24px;
+      color: #4682B4;
+    }
+    .tabs {
+      display: table;
+      width: 100%;
+      border-collapse: collapse;
+      background: #f7f7f7;
+    }
+    .tab {
+      display: table-cell;
+      text-align: center;
+      padding: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      color: #666;
+      border-right: 1px solid #ddd;
+      cursor: pointer;
+      background: #f7f7f7;
+    }
+    .tab:last-child {
+      border-right: none;
+    }
+    .tab.active {
+      background: #ffffff;
+      border-bottom: 3px solid #4CAF50;
+      color: black;
+    }
+    .content {
+      padding: 20px;
+    }
+    .content-section {
+      display: none;
+    }
+    .content-section.active {
+      display: block;
+    }
+    .info-box {
+      border: 2px dashed #4CAF50;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+      color: #666;
+    }
+    .info-box .title {
+      color: #4682B4;
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .info-box .subtitle {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div style="display: flex; align-items: center; flex: 1;">
+    {% if contacts.photo %}
+      <img src="{{ contacts.photo_url }}" alt="{{ contacts.display_as }}" class="profile-photo">
+    {% else %}
+      <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyMDAnIGhlaWdodD0nMjAwJz48cmVjdCB3aWR0aD0nMjAwJyBoZWlnaHQ9JzIwMCcgZmlsbD0nI2NjY2NjYycvPjx0ZXh0IHg9JzUwJScgeT0nNTAlJyBkb21pbmFudC1iYXNlbGluZT0nbWlkZGxlJyB0ZXh0LWFuY2hvcj0nbWlkZGxlJyBmb250LWZhbWlseT0nQXJpYWwnIGZvbnQtc2l6ZT0nMjAnIGZpbGw9JyM2NjY2NjYnPk5vIFBob3RvPC90ZXh0Pjwvc3ZnPg==" alt="Profile Picture">
+    {% endif %}
+      <h2>{{ contacts.display_as}}</h2>
+    </div>
+    <div>
+      <a href="/contacts/{{ contacts.id }}/edit" class="edit-button">Edit Contact</a>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab(event, 'timeline')">Timeline</div>
+    <div class="tab" onclick="switchTab(event, 'notes')">Notes</div>
+    <div class="tab" onclick="switchTab(event, 'tasks')">Tasks</div>
+    <div class="tab" onclick="switchTab(event, 'purchased')">Purchased From</div>
+    <div class="tab" onclick="switchTab(event, 'sold')">Sold To</div>
+    <div class="tab" onclick="switchTab(event, 'breeder')">Breeder</div>
+    <div class="tab" onclick="switchTab(event, 'owner')">Owner</div>
+  </div>
+
+  <div class="content">
+    <div id="timeline" class="content-section active">
+      <div class="info-box">
+        <div class="title">No Activities</div>
+        <div class="subtitle">No recent activities recorded.<br>Click 'Show complete timeline...' to view all activity.</div>
+        <br>
+        <div style="color: #4CAF50; font-weight: bold;">Show complete timeline...</div>
+        <div class="right-content">
+          <div class="info-box">
+            {% if contacts.display_as is not empty %}
+            <div class="title">{{ contacts.display_as}}</div>
+            {% endif %}
+            {% if contacts.phone_number is not empty %}
+              <div class="subtitle">Phone: {{ contacts.phone_number }}</div>
+            {% endif %}
+            {% if contacts.address is not empty %}
+              <div class="subtitle">Address: {{ contacts.address }}</div>
+            {% endif %}
+            {% if contacts.email is not empty %}
+              <div class="subtitle">Email: {{ contacts.email }}</div>
+            {% endif %}            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="notes" class="content-section">
+      <div class="info-box">
+        <div class="subtitle">No Notes Available.</div>
+      </div>
+    </div>
+
+    <div id="tasks" class="content-section">
+      <div class="info-box">
+        <div class="subtitle">No Tasks Available.</div>
+      </div>
+    </div>
+
+    <div id="purchased" class="content-section">
+      <div class="info-box">
+        <div class="subtitle">No Purchase Records.</div>
+      </div>
+    </div>
+
+    <div id="sold" class="content-section">
+      <div class="info-box">
+        <div class="subtitle">No Sold Records.</div>
+      </div>
+    </div>
+
+    <div id="breeder" class="content-section">
+      <div class="info-box">
+        <div class="subtitle">No Breeder Information.</div>
+      </div>
+    </div>
+
+    <div id="owner" class="content-section">
+      <div class="info-box">
+        <div class="subtitle">No Owner Information.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function switchTab(event, tabId) {
+  // remove active class from all tabs
+  document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+  // hide all sections
+  document.querySelectorAll('.content-section').forEach(section => section.classList.remove('active'));
+  // activate clicked tab
+  event.target.classList.add('active');
+  // show clicked section
+  document.getElementById(tabId).classList.add('active');
+}
+</script>
+
+</body>
+</html>

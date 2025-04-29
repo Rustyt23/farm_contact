@@ -21,8 +21,8 @@ use Drupal\Core\Config\Entity\ConfigEntityBundleBase;
  *     },
  *     "list_builder" = "Drupal\farm_contact\ContactTypeListBuilder",
  *   },
- *   admin_permission = "administer contact types",
- *   bundle_of = "contact",
+ *   admin_permission = "administer contacts types",
+ *   bundle_of = "contacts",
  *   config_prefix = "contact_type",
  *   entity_keys = {
  *     "id" = "id",

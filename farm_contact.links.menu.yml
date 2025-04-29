@@ -3,3 +3,8 @@ farm.contacts:
   parent: farm.base
   route_name: 'farm_contact.add_contact'
   weight: 0
+farm.equipment:
+  title: Equipment
+  parent: farm.base
+  route_name: 'farm_contact.equipment'
+  weight: 0

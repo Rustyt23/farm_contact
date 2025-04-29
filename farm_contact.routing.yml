@@ -1,14 +1,39 @@
 farm_contact.add_contact:
-  path: /farm-contact/test
+  path: /farm-contact
   defaults:
     _title_callback: '\Drupal\farm_contact\Controller\FarmContactController::title'
     _controller: '\Drupal\farm_contact\Controller\FarmContactController::testPage'
   requirements:
     _permission: 'access content'
-entity.contact.add_form:
-  path: '/farm-contact/contact/add'
+entity.contacts.add_form:
+  path: '/farm-contact/contacts/add'
   defaults:
     _form: '\Drupal\farm_contact\Form\AddContactForm' # Use the custom form class.
     _title: 'Add Contact'
   requirements:
     _permission: 'administer contact entities'
+farm_contact.contact_profile:
+  path: '/contact-profile/{contacts}'
+  defaults:
+    _controller: '\Drupal\farm_contact\Controller\FarmContactController::contactProfile'
+    _title: 'Contact Profile'
+  requirements:
+    _permission: 'access content'
+entity.contacts.delete:
+  path: '/contacts/{contacts}/delete'
+  defaults:
+    _entity_form: 'contacts.delete'
+    _title: 'Delete Contact'
+  requirements:
+    _entity_access: 'contacts.delete'
+  options:
+    parameters:
+      contacts:
+        type: entity:contacts
+farm_contact.equipment:
+  path: '/contacts/equipment'
+  defaults:
+    _entity_form: 'entity.assest_type.collection'
+    _title: 'Equipment Contact'
+  requirements:
+    _entity_access: 'contacts.delete'
